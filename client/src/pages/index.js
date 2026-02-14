@@ -1,0 +1,9 @@
+export { default as Dashboard } from './Dashboard';
+export { default as Projects } from './Projects';
+export { default as ProjectDetails } from './ProjectDetails';
+export { default as Tasks } from './Tasks';
+export { default as GanttChart } from './GanttChart';
+export { default as Resources } from './Resources';
+export { default as Profile } from './Profile';
+export { default as Settings } from './Settings';
+export { default as HelpSupport } from './HelpSupport';
