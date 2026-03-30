@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import {
   HiOutlineMenu,
   HiOutlineBell,
@@ -13,10 +12,12 @@ import {
   HiOutlineLogout,
 } from 'react-icons/hi';
 import { projectAPI, taskAPI } from '../../services/api';
+import { AuthContext } from '../../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = ({ toggleSidebar, sidebarOpen }) => {
   const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState({ projects: [], tasks: [] });
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -47,13 +48,14 @@ const Navbar = ({ toggleSidebar, sidebarOpen }) => {
     navigate('/help');
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     setShowProfile(false);
-    toast.success('Signed out successfully!');
-    // In a real app, you would clear auth tokens and redirect to login
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 1000);
+    try {
+      await logout();
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   // Debounced search
@@ -231,7 +233,7 @@ const Navbar = ({ toggleSidebar, sidebarOpen }) => {
             <div className="profile-avatar">
               <HiOutlineUser />
             </div>
-            <span className="profile-name">Admin User</span>
+            <span className="profile-name">{user?.name || 'User'}</span>
           </button>
 
           {showProfile && (
@@ -241,8 +243,8 @@ const Navbar = ({ toggleSidebar, sidebarOpen }) => {
                   <HiOutlineUser />
                 </div>
                 <div className="profile-details">
-                  <span className="profile-name">Admin User</span>
-                  <span className="profile-email">admin@projectdash.com</span>
+                  <span className="profile-name">{user?.name || 'User'}</span>
+                  <span className="profile-email">{user?.email || 'user@example.com'}</span>
                 </div>
               </div>
               <ul className="profile-menu-list">

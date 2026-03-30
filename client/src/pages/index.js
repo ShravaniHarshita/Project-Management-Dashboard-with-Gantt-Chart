@@ -7,3 +7,7 @@ export { default as Resources } from './Resources';
 export { default as Profile } from './Profile';
 export { default as Settings } from './Settings';
 export { default as HelpSupport } from './HelpSupport';
+export { default as Login } from './Login';
+export { default as Register } from './Register';
+export { default as ForgotPassword } from './ForgotPassword';
+export { default as ResetPassword } from './ResetPassword';

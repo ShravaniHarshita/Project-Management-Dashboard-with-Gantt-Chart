@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 /**
  * User Schema
@@ -42,7 +43,11 @@ const UserSchema = new mongoose.Schema({
   },
   lastLogin: {
     type: Date
-  }
+  },
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
+  resetPasswordOTP: String,
+  resetPasswordOTPExpire: Date
 }, {
   timestamps: true
 });
@@ -69,6 +74,40 @@ UserSchema.methods.getSignedJwtToken = function() {
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRE }
   );
+};
+
+// Generate and hash password token
+UserSchema.methods.getResetPasswordToken = function() {
+  // Generate token
+  const resetToken = crypto.randomBytes(20).toString('hex');
+
+  // Hash token and set to resetPasswordToken field
+  this.resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  // Set expire
+  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+  return resetToken;
+};
+
+// Generate a 6-digit OTP for password reset
+UserSchema.methods.getResetPasswordOTP = function() {
+  // Generate random 6-digit numeric OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // Hash the OTP before storing
+  this.resetPasswordOTP = crypto
+    .createHash('sha256')
+    .update(otp)
+    .digest('hex');
+
+  // Set expiry to 10 minutes
+  this.resetPasswordOTPExpire = Date.now() + 10 * 60 * 1000;
+
+  return otp;
 };
 
 module.exports = mongoose.model('User', UserSchema);

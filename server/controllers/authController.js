@@ -1,6 +1,8 @@
+const crypto = require('crypto');
 const User = require('../models/User');
 const asyncHandler = require('../utils/asyncHandler');
 const ErrorResponse = require('../utils/errorResponse');
+const emailService = require('../utils/emailService');
 
 /**
  * @desc    Register user
@@ -23,6 +25,11 @@ exports.register = asyncHandler(async (req, res, next) => {
     password,
     role: role || 'user'
   });
+
+  // Send welcome email (don't wait for it)
+  emailService.sendWelcomeEmail(email, name).catch(err => 
+    console.log('Welcome email failed:', err.message)
+  );
 
   sendTokenResponse(user, 201, res);
 });
@@ -129,6 +136,131 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 
   user.password = req.body.newPassword;
   await user.save();
+
+  sendTokenResponse(user, 200, res);
+});
+
+/**
+ * @desc    Forgot password - sends 6-digit OTP via email
+ * @route   POST /api/auth/forgotpassword
+ * @access  Public
+ */
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new ErrorResponse('There is no user with that email', 404));
+  }
+
+  // Generate 6-digit OTP
+  const otp = user.getResetPasswordOTP();
+  await user.save({ validateBeforeSave: false });
+
+  try {
+    // Send OTP email via Ethereal (always works) or production SMTP
+    const emailResult = await emailService.sendOTPEmail(user.email, otp);
+
+    const response = {
+      success: true,
+      message: 'A 6-digit verification code has been sent to your email',
+      email: user.email
+    };
+
+    // In development, include the OTP and preview URL for easy testing
+    if (process.env.NODE_ENV !== 'production') {
+      response.otp = otp; // Remove in production!
+      if (emailResult.previewUrl) {
+        response.previewUrl = emailResult.previewUrl;
+      }
+      response.emailMode = emailResult.mode;
+    }
+
+    res.status(200).json(response);
+  } catch (err) {
+    console.error('OTP email send error:', err.message);
+
+    // Clear OTP fields on failure
+    user.resetPasswordOTP = undefined;
+    user.resetPasswordOTPExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(new ErrorResponse('Failed to send verification code. Please try again.', 500));
+  }
+});
+
+/**
+ * @desc    Verify OTP
+ * @route   POST /api/auth/verifyotp
+ * @access  Public
+ */
+exports.verifyOTP = asyncHandler(async (req, res, next) => {
+  const { email, otp } = req.body;
+
+  if (!email || !otp) {
+    return next(new ErrorResponse('Please provide email and OTP', 400));
+  }
+
+  // Hash the provided OTP to compare
+  const hashedOTP = crypto
+    .createHash('sha256')
+    .update(otp)
+    .digest('hex');
+
+  const user = await User.findOne({
+    email,
+    resetPasswordOTP: hashedOTP,
+    resetPasswordOTPExpire: { $gt: Date.now() }
+  });
+
+  if (!user) {
+    return next(new ErrorResponse('Invalid or expired OTP. Please request a new code.', 400));
+  }
+
+  // OTP is valid — generate a short-lived reset token for the password step
+  const resetToken = user.getResetPasswordToken();
+  // Keep OTP fields so they can't be reused but don't clear yet
+  user.resetPasswordOTP = undefined;
+  user.resetPasswordOTPExpire = undefined;
+  await user.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    success: true,
+    message: 'OTP verified successfully. You can now reset your password.',
+    resetToken
+  });
+});
+
+/**
+ * @desc    Reset password (after OTP verification)
+ * @route   PUT /api/auth/resetpassword/:resettoken
+ * @access  Public
+ */
+exports.resetPassword = asyncHandler(async (req, res, next) => {
+  // Get hashed token
+  const resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(req.params.resettoken)
+    .digest('hex');
+
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() }
+  });
+
+  if (!user) {
+    return next(new ErrorResponse('Invalid or expired reset token', 400));
+  }
+
+  // Set new password
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+  await user.save();
+
+  // Send password change confirmation email (don't wait for it)
+  emailService.sendPasswordChangeEmail(user.email, user.name).catch(err => 
+    console.log('Password change confirmation email failed:', err.message)
+  );
 
   sendTokenResponse(user, 200, res);
 });

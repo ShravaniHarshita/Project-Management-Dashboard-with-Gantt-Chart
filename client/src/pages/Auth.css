@@ -1,0 +1,600 @@
+/* Authentication Pages Styles */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--primary-100) 100%);
+}
+
+.auth-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--border-color);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-header h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-group input {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  transition: all var(--transition);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-50);
+}
+
+.form-group input.error {
+  border-color: var(--error-500);
+}
+
+.form-group input.error:focus {
+  box-shadow: 0 0 0 3px var(--error-50);
+}
+
+.error-text {
+  font-size: 0.75rem;
+  color: var(--error-500);
+  margin-top: 0.25rem;
+}
+
+.auth-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.forgot-link {
+  font-size: 0.875rem;
+  color: var(--primary-500);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.forgot-link:hover {
+  color: var(--primary-600);
+}
+
+.auth-button {
+  background: var(--primary-500);
+  color: white;
+  border: none;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-top: 0.5rem;
+}
+
+.auth-button:hover:not(:disabled) {
+  background: var(--primary-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.auth-footer p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.auth-link {
+  color: var(--primary-500);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.auth-link:hover {
+  color: var(--primary-600);
+}
+
+.auth-message {
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.auth-message.success {
+  background: var(--success-50);
+  border: 1px solid var(--success-200);
+  color: var(--success-700);
+}
+
+.auth-message.error {
+  background: var(--error-50);
+  border: 1px solid var(--error-200);
+  color: var(--error-700);
+}
+
+.auth-message p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.5rem;
+    margin: 0.5rem;
+  }
+
+  .auth-header h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animation for smooth transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-container {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Loading spinner for auth button */
+.auth-button:disabled::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Password Reset Specific Styles */
+.reset-instructions {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--gray-50);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+}
+
+.reset-instructions h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.reset-instructions ol {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--text-secondary);
+}
+
+.reset-instructions li {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.resend-section {
+  text-align: center;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--gray-50);
+  border-radius: var(--radius);
+}
+
+.resend-section p {
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.auth-button.secondary {
+  background: var(--gray-500);
+  color: white;
+}
+
+.auth-button.secondary:hover:not(:disabled) {
+  background: var(--gray-600);
+}
+
+.password-reset-info {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--info-50), var(--primary-50));
+  border: 1px solid var(--primary-200);
+  border-radius: var(--radius);
+}
+
+.password-reset-info h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-700);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.password-reset-info h4::before {
+  content: "🔒";
+  font-size: 1rem;
+}
+
+.password-reset-info ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--primary-600);
+}
+
+.password-reset-info li {
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* Enhanced auth footer */
+.auth-footer p:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  margin-top: 0.5rem;
+}
+
+.strength-bar {
+  height: 4px;
+  background: var(--gray-200);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.strength-fill {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  border-radius: 2px;
+}
+
+.strength-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.strength-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.strength-feedback {
+  margin-top: 0.25rem;
+  width: 100%;
+}
+
+.strength-feedback small {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* Enhanced error message styling */
+.auth-message.error {
+  background: var(--error-50);
+  border: 1px solid var(--error-200);
+  color: var(--error-700);
+}
+
+.auth-message.error .auth-link {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--error-600);
+  text-decoration: underline;
+}
+
+.auth-message.error .auth-link:hover {
+  color: var(--error-700);
+}
+
+/* Improved button loading state */
+.auth-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  position: relative;
+}
+
+.auth-button:disabled:hover {
+  background: var(--primary-500);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive improvements */
+@media (max-width: 480px) {
+  .reset-instructions,
+  .resend-section,
+  .password-reset-info {
+    padding: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .reset-instructions h3,
+  .password-reset-info h4 {
+    font-size: 0.875rem;
+  }
+
+  .reset-instructions li,
+  .password-reset-info li {
+    font-size: 0.8rem;
+  }
+
+  .strength-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .strength-label {
+    margin-bottom: 0.25rem;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── OTP Step Indicator ─────────────────────────────── */
+.otp-steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+}
+
+.otp-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  position: relative;
+}
+
+.otp-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: calc(50% + 20px);
+  width: calc(2rem + 20px);
+  height: 2px;
+  background: var(--border-color, #e5e7eb);
+  transition: background 0.3s;
+}
+
+.otp-step.completed:not(:last-child)::after {
+  background: var(--primary-500, #3b82f6);
+}
+
+.otp-step-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 2px solid var(--border-color, #e5e7eb);
+  color: var(--text-secondary, #6b7280);
+  background: #fff;
+  transition: all 0.3s;
+}
+
+.otp-step.active .otp-step-circle {
+  border-color: var(--primary-500, #3b82f6);
+  color: #fff;
+  background: var(--primary-500, #3b82f6);
+}
+
+.otp-step.completed .otp-step-circle {
+  border-color: var(--success-500, #10b981);
+  color: #fff;
+  background: var(--success-500, #10b981);
+}
+
+.otp-step-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary, #6b7280);
+}
+
+.otp-step.active .otp-step-label {
+  color: var(--primary-500, #3b82f6);
+  font-weight: 600;
+}
+
+.otp-step.completed .otp-step-label {
+  color: var(--success-500, #10b981);
+}
+
+/* ── OTP Input Group ────────────────────────────────── */
+.otp-input-group {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0.75rem 0;
+}
+
+.otp-input {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2px solid var(--border-color, #e5e7eb);
+  border-radius: var(--radius-md, 8px);
+  outline: none;
+  transition: all 0.2s;
+  color: var(--text-primary, #111827);
+  background: var(--card-bg, #fff);
+  font-family: 'Courier New', monospace;
+}
+
+.otp-input:focus {
+  border-color: var(--primary-500, #3b82f6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.otp-input.error {
+  border-color: var(--error-500, #ef4444);
+}
+
+/* ── Email Preview Notice (Ethereal test mode) ──────── */
+.email-preview-notice {
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: var(--radius-md, 8px);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.email-preview-notice p {
+  margin: 0 0 0.4rem;
+  color: #92400e;
+}
+
+.email-preview-notice a {
+  color: #b45309;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.email-preview-notice a:hover {
+  color: #78350f;
+}
+
+/* ── Success icon ───────────────────────────────────── */
+.success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--success-500, #10b981);
+  color: #fff;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+/* ── Responsive adjustments for OTP ─────────────────── */
+@media (max-width: 480px) {
+  .otp-input {
+    width: 40px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+
+  .otp-input-group {
+    gap: 0.4rem;
+  }
+
+  .otp-steps {
+    gap: 1.2rem;
+  }
+
+  .otp-step:not(:last-child)::after {
+    width: calc(1.2rem + 10px);
+    left: calc(50% + 18px);
+  }
+}

@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const { connectDB, isMockDataMode, getMockData } = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
+const emailService = require('./utils/emailService');
 
 // Route imports
 const {
@@ -11,7 +12,8 @@ const {
   taskRoutes,
   resourceRoutes,
   authRoutes,
-  dashboardRoutes
+  dashboardRoutes,
+  testRoutes
 } = require('./routes');
 
 // Initialize express app
@@ -23,6 +25,13 @@ app.set('getMockData', getMockData);
 
 // Connect to database
 connectDB();
+
+// Initialize email service (auto-creates Ethereal test account if no production creds)
+emailService.ensureReady().then(() => {
+  console.log(`📧 Email service mode: ${emailService.mode}`);
+}).catch(err => 
+  console.log('⚠️  Email service initialization warning:', err.message)
+);
 
 // Middleware
 app.use(express.json());
@@ -56,6 +65,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/resources', resourceRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/test', testRoutes);
 
 // Error handler middleware (must be after routes)
 app.use(errorHandler);

@@ -148,6 +148,15 @@ export const authAPI = {
   // Logout
   logout: () => api.get('/auth/logout'),
   
+  // Forgot password - sends OTP
+  forgotPassword: (data) => api.post('/auth/forgotpassword', data),
+  
+  // Verify OTP
+  verifyOTP: (data) => api.post('/auth/verifyotp', data),
+  
+  // Reset password (with token from OTP verification)
+  resetPassword: (resetToken, data) => api.put(`/auth/resetpassword/${resetToken}`, data),
+  
   // Get current user
   getMe: () => api.get('/auth/me'),
   

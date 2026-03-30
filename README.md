@@ -2,6 +2,17 @@
 
 A comprehensive, full-stack Project Management Dashboard with Interactive Gantt Chart Visualization. Built with React.js, Node.js, Express.js, and MongoDB.
 
+---
+
+## 📚 **START HERE: [📖 Documentation Guide](./DOCUMENTATION_INDEX.md)**
+
+**New to this project?** Choose your setup path:
+- ⚡ [5-minute Windows Quick Start](./QUICK_START_WINDOWS.md)
+- 📖 [Complete Setup Guide](./SETUP_GUIDE.md) (All platforms)
+- 📸 [Visual Setup Guide](./VISUAL_GUIDE.md) (See expected outputs)
+
+---
+
 ![Dashboard Preview](./docs/dashboard-preview.png)
 
 ## 🚀 Features
@@ -112,74 +123,86 @@ project-management-dashboard/
 
 ## 🚀 Getting Started
 
+### ⚡ Quick Start (5 minutes)
+
+For **complete step-by-step setup instructions**, please read the [**SETUP_GUIDE.md**](./SETUP_GUIDE.md) file. It includes:
+- System requirements
+- Node.js installation
+- MongoDB configuration (Atlas or Local)
+- .env file setup
+- Running both servers
+- Troubleshooting
+
 ### Prerequisites
 
-- **Node.js** (v16 or higher)
-- **MongoDB** (v5 or higher)
-- **npm** or **yarn**
+- **Node.js** (v16 or higher) - [Install Guide](./SETUP_GUIDE.md#-system-requirements)
+- **MongoDB** (v5 or higher) - [Configuration Guide](./SETUP_GUIDE.md#-configuration)
+- **npm** (v7 or higher - comes with Node.js)
 
-### Installation
+### Quick Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/project-management-dashboard.git
-   cd project-management-dashboard
-   ```
+```bash
+# 1. Clone repository
+git clone <repository-url>
+cd project-management-dashboard
 
-2. **Install dependencies**
-   ```bash
-   # Install root dependencies (includes both client & server setup)
-   npm install
-   
-   # Install client dependencies
-   cd client && npm install && cd ..
-   ```
+# 2. Install dependencies
+npm install && cd client && npm install && cd ..
 
-3. **Configure environment variables**
-   ```bash
-   # Copy the example env file
-   cp .env.example .env
-   
-   # Edit .env with your configuration
-   ```
+# 3. Create .env file (see SETUP_GUIDE.md for details)
+# Add your MongoDB URI and other configuration
 
-   Environment variables:
-   ```env
-   NODE_ENV=development
-   PORT=5000
-   MONGO_URI=mongodb://localhost:27017/project_management_db
-   JWT_SECRET=your_jwt_secret_key
-   JWT_EXPIRE=30d
-   ```
+# 4. Start backend server (Terminal 1)
+npm start
 
-4. **Start MongoDB**
-   ```bash
-   # If using local MongoDB
-   mongod
-   
-   # Or start MongoDB service
-   # Windows: net start MongoDB
-   # macOS: brew services start mongodb-community
-   ```
+# 5. Start frontend server (Terminal 2)
+cd client && npm start
 
-5. **Seed the database (optional)**
-   ```bash
-   npm run seed
-   ```
+# 6. Open in browser
+# Frontend: http://localhost:3000
+# Backend: http://localhost:5000/api
+```
 
-6. **Start the application**
-   ```bash
-   # Development mode (runs both frontend and backend)
-   npm run dev
-   
-   # Or start separately:
-   # Backend: npm start
-   # Frontend: cd client && npm start
-   ```
+### 📖 Detailed Setup Instructions
 
-7. **Access the application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000/api
+👉 **[Read SETUP_GUIDE.md for complete instructions](./SETUP_GUIDE.md)**
+
+This guide covers:
+- Installing Node.js on Windows, macOS, and Linux
+- Setting up MongoDB Atlas (cloud) or Local MongoDB
+- Configuring environment variables
+- Running the application
+- Troubleshooting common issues
+- Using the application features
+
+---
+
+## 🗂️ Quick Reference
+
+### Project URLs
+| Component | URL | Default Port |
+|-----------|-----|--------------|
+| Frontend (React) | http://localhost:3000 | 3000 |
+| Backend (API) | http://localhost:5000/api | 5000 |
+
+### Common Commands
+| Command | Purpose |
+|---------|---------|
+| `npm install` | Install root dependencies |
+| `cd client && npm install` | Install frontend dependencies |
+| `npm start` | Start backend server |
+| `cd client && npm start` | Start frontend server |
+| `npm run dev` | Run both servers (requires concurrently) |
+| `npm run seed` | Seed database with sample data |
+| `npm run build` | Build production-ready frontend |
+
+### Environment Files
+| File | Purpose |
+|------|---------|
+| `.env` | **Your configuration** (create this) |
+| `.env.example` | **Template** for `.env` file |
+
+---
 
 ## 📡 API Documentation
 
