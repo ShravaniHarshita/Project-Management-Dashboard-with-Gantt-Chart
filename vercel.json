@@ -14,7 +14,7 @@
       "handle": "filesystem"
     },
     {
-      "src": "/.*",
+      "src": "^/(?!api/).*",
       "dest": "/index.html"
     }
   ]

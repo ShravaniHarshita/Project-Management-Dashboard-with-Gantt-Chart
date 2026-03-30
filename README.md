@@ -202,6 +202,45 @@ This guide covers:
 | `.env` | **Your configuration** (create this) |
 | `.env.example` | **Template** for `.env` file |
 
+## ☁️ Backend Cloud Deployment
+This project separates frontend and backend deployments.
+
+### Recommended flow
+1. Deploy the backend to a Node-friendly service like **Render**, **Railway**, or **Heroku**.
+2. Deploy the frontend to **Vercel** (already configured with `vercel.json`).
+3. Set the frontend environment variable:
+   - `REACT_APP_API_URL=https://<your-backend-domain>/api`
+
+### Backend deployment files included
+- `Dockerfile` — container image for Node backend
+- `.dockerignore` — exclude local files from Docker build
+- `Procfile` — start command for Heroku/Render
+
+### Backend environment variables
+Set these values in your cloud host before starting the backend:
+- `PORT=5000`
+- `NODE_ENV=production`
+- `MONGODB_URI=<your-mongodb-atlas-uri>`
+- `JWT_SECRET=<your-secret-key>`
+- `JWT_EXPIRE=30d`
+- `CLIENT_URL=https://<your-frontend-domain>`
+- `EMAIL_SERVICE=gmail`
+- `EMAIL_FROM=<your-email>`
+- `EMAIL_PASSWORD=<your-email-password>`
+
+### Render / Railway setup
+- Connect your GitHub repo
+- Choose Node.js service
+- Use `npm install` as the build command
+- Use `npm start` as the start command
+- Add the environment variables above
+
+### Vercel configuration for frontend
+In Vercel, add:
+- `REACT_APP_API_URL=https://<your-backend-domain>/api`
+
+The frontend will then call the backend using `process.env.REACT_APP_API_URL || '/api'`.
+
 ---
 
 ## 📡 API Documentation
